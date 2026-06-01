@@ -1,0 +1,1806 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VitaVida</title>
+ 
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+ 
+body{
+    background:#efefef;
+}
+ 
+/* TOPO */
+header{
+    width:100%;
+    background:white;
+    padding:20px 40px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:5px solid #b7ec58;
+    position:sticky;
+    top:0;
+    z-index: 1000;
+}
+ 
+.logo{
+    color:#52a30d;
+    font-size:32px;
+    font-weight:bold;
+}
+ 
+nav{
+    display:flex;
+    gap:20px;
+}
+ 
+nav button{
+    background:none;
+    border:none;
+    color:#1f7a1f;
+    font-weight:bold;
+    cursor:pointer;
+    font-size:16px;
+}
+ 
+/* PÁGINAS */
+.pagina{
+    display:none;
+}
+ 
+.ativa{
+    display:block;
+}
+ 
+/* CONTAINER */
+.container{
+    width:100%;
+    min-height:calc(100vh - 83px);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px;
+}
+ 
+/* CARD */
+.card{
+    background:white;
+    width:420px;
+    border-radius:20px;
+    padding:35px;
+    box-shadow:0 0 20px rgba(0,0,0,0.1);
+    border-bottom:15px solid #b7ec58;
+    position: relative;
+}
+ 
+.card h1{
+    color:#52a30d;
+    margin-bottom:5px;
+}
+ 
+.card h2{
+    color:#14853f;
+    margin-bottom:25px;
+    font-size:28px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+ 
+.card p{
+    color:#14853f;
+    margin-bottom:10px;
+    font-size:14px;
+}
+ 
+label{
+    color:#14853f;
+    font-weight:bold;
+    font-size:14px;
+    display: block;
+    margin-top: 10px;
+}
+ 
+/* INPUTS */
+input, select{
+    width:100%;
+    padding:12px;
+    margin-top:5px;
+    margin-bottom:15px;
+    border:2px solid #222;
+    border-radius:30px;
+    outline:none;
+    background: white;
+}
+ 
+/* BOTÕES */
+button, .btn-link{
+    width:100%;
+    background:#52a30d;
+    color:white;
+    border:none;
+    padding:14px;
+    border-radius:30px;
+    cursor:pointer;
+    font-size:16px;
+    font-weight:bold;
+    transition:0.3s;
+    text-align: center;
+    display: block;
+    text-decoration: none;
+    margin-bottom: 10px;
+}
+ 
+button:hover, .btn-link:hover{
+    background:#3f8108;
+}
+ 
+.btn-outline {
+    background: white;
+    color: #14853f;
+    border: 2px solid #14853f;
+}
+.btn-outline:hover {
+    background: #14853f;
+    color: white;
+}
+ 
+/* LINKS */
+.links{
+    margin-top:20px;
+    display:flex;
+    justify-content:space-between;
+}
+ 
+.links a{
+    text-decoration:none;
+    color:#14853f;
+    font-size:14px;
+    cursor:pointer;
+}
+ 
+/* PERFIL E LISTAS */
+.perfil{
+    text-align:center;
+}
+ 
+.foto{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    background:#ddd;
+    margin:20px auto;
+    background-size: cover;
+    background-position: center;
+}
+ 
+.header-perfil {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #14853f;
+}
+ 
+.icones-acoes {
+    display: flex;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 20px;
+}
+ 
+.agendamentos, .medicos-lista{
+    margin-top:25px;
+    text-align: left;
+}
+ 
+.item{
+    border:2px solid #14853f;
+    border-radius:20px;
+    padding:10px;
+    margin-bottom:12px;
+    color:#14853f;
+    font-size: 13px;
+}
+ 
+/* HOME E SELEÇÃO */
+.home{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+ 
+.home h2 {
+    justify-content: center;
+}
+ 
+.opcoes-verticais {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+    width: 100%;
+}
+ 
+.opcao-selecao {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    color: #14853f;
+    cursor: pointer;
+    padding: 15px;
+    border: 2px solid #b7ec58;
+    border-radius: 15px;
+    transition: 0.2s;
+}
+.opcao-selecao:hover {
+    background: #f0fdf4;
+    border-color: #52a30d;
+}
+ 
+.opcao-selecao .nome-clinica {
+    font-weight: bold;
+    font-size: 16px;
+}
+ 
+.opcao-selecao .info-clinica {
+    font-size: 12px;
+    color: #666;
+}
+ 
+/* RESPONSIVO */
+@media(max-width:500px){
+    .card{
+        width:100%;
+    }
+    header{
+        flex-direction:column;
+        gap:20px;
+    }
+}
+</style>
+</head>
+<body>
+ 
+<header>
+    <div class="logo" onclick="abrirPagina('home')" style="cursor:pointer;">
+        VitaVida🌿
+    </div>
+    <nav>
+        <button onclick="abrirPagina('home')">Home</button>
+        <button onclick="abrirPagina('escolha_cadastro')">Cadastrar/Entrar</button>
+    </nav>
+</header>
+ 
+<div id="home" class="pagina ativa">
+    <div class="container">
+        <div class="card home">
+            <h1>VitaVida🌿</h1>
+            <h2>Bem-vindo!</h2>
+            <p style="margin-bottom: 20px;">Sistema de gerenciamento para clínicas e pacientes.</p>
+            <button onclick="abrirPagina('escolha_cadastro')">Entrar Agora</button>
+            <div class="links" style="justify-content: center; margin-top: 25px;">
+                <a onclick="abrirPagina('sobre_nos')">Sobre nós</a>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+<div id="sobre_nos" class="pagina">
+    <div class="container">
+        <div class="card" style="text-align: center;">
+            <h1>VitaVida🌿</h1>
+            <h2>Sobre Nós</h2>
+            <p style="margin-bottom: 20px; text-align: left; line-height: 1.5;">O VitaVida é uma plataforma inovadora criada para aproximar clínicas de saúde e seus pacientes, otimizando os processos de agendamento, gestão de corpo médico e controle de atendimentos com simplicidade e acessibilidade.</p>
+            <button type="button" class="btn-outline" onclick="voltarPagina()">Voltar</button>
+        </div>
+    </div>
+</div>
+ 
+<div id="escolha_cadastro" class="pagina">
+    <div class="container">
+        <div class="card">
+            <h1>VitaVida🌿</h1>
+            <h2>Você quer cadastrar 🌿</h2>
+            <div class="opcoes-verticais">
+                <div class="opcao-selecao" style="flex-direction: row; align-items: center;" onclick="abrirPagina('escolha_clinica')">
+                    👤 Clínica
+                </div>
+                <div class="opcao-selecao" style="flex-direction: row; align-items: center;" onclick="abrirPagina('fluxo_usuario')">
+                    👤 Usuário
+                </div>
+            </div>
+            <button type="button" class="btn-outline" onclick="voltarPagina()" style="margin-top: 20px;">Voltar</button>
+        </div>
+    </div>
+</div>
+ 
+<!-- TELA: Escolha de Clínicas Semi-Cadastradas + Opção de Nova Clínica -->
+<div id="escolha_clinica" class="pagina">
+    <div class="container">
+        <div class="card" style="width: 460px;">
+            <h1>VitaVida🌿</h1>
+            <h2>Selecione a Clínica</h2>
+            <p style="margin-bottom: 15px;">Escolha uma unidade existente ou registre uma nova:</p>
+           
+            <!-- Botão para cadastrar uma clínica totalmente nova -->
+            <button onclick="abrirPagina('cadastro_clinica')" style="background-color: #14853f; margin-bottom: 20px;">
+                ➕ Cadastrar Nova Clínica
+            </button>
+           
+            <div class="opcoes-verticais" style="max-height: 280px; overflow-y: auto; padding-right: 5px; border-top: 1px solid #ddd; padding-top: 15px;">
+                <div class="opcao-selecao" onclick="abrirPagina('fluxo_clinica')">
+                    <span class="nome-clinica">🏥 Clínica Suspeita (Matriz)</span>
+                    <span class="info-clinica">CNPJ: 12.345.678/0001-99 | Teresina - PI</span>
+                </div>
+               
+                <div class="opcao-selecao" onclick="abrirPagina('fluxo_clinica')">
+                    <span class="nome-clinica">🌿 Centro Médico Bem-Estar</span>
+                    <span class="info-clinica">CNPJ: 98.765.432/0001-10 | São Paulo - SP</span>
+                </div>
+               
+                <div class="opcao-selecao" onclick="abrirPagina('fluxo_clinica')">
+                    <span class="nome-clinica">🩺 Policlinica Vida & Saúde</span>
+                    <span class="info-clinica">CNPJ: 45.112.334/0002-44 | Rio de Janeiro - RJ</span>
+                </div>
+               
+                <div class="opcao-selecao" onclick="abrirPagina('fluxo_clinica')">
+                    <span class="nome-clinica">🧪 Laboratório e Clínica Santa Teresa</span>
+                    <span class="info-clinica">CNPJ: 22.887.996/0001-05 | Belo Horizonte - MG</span>
+                </div>
+            </div>
+           
+            <button type="button" class="btn-outline" onclick="voltarPagina()" style="margin-top: 20px;">Voltar</button>
+        </div>
+    </div>
+</div>
+ 
+<div id="fluxo_clinica" class="pagina">
+    <div class="container">
+        <div class="card">
+            <h1>VitaVida🌿</h1>
+            <h2>👤 Clinica 🌿</h2>
+            <div class="opcoes-verticais">
+                <a class="btn-link" onclick="abrirPagina('login_clinica')">📝 Entrar</a>
+                <a class="btn-link" onclick="abrirPagina('cadastro_clinica')">📝 Cadastro</a>
+            </div>
+            <button type="button" class="btn-outline" onclick="voltarPagina()" style="margin-top: 20px;">Voltar</button>
+        </div>
+    </div>
+</div>
+ 
+<div id="fluxo_usuario" class="pagina">
+    <div class="container">
+        <div class="card">
+            <h1>VitaVida🌿</h1>
+            <h2>👤 Usuario 🌿</h2>
+            <div class="opcoes-verticais">
+                <a class="btn-link" onclick="abrirPagina('login_usuario')">📝 Entrar</a>
+                <a class="btn-link" onclick="abrirPagina('cadastro_usuario')">📝 Cadastro</a>
+            </div>
+            <button type="button" class="btn-outline" onclick="voltarPagina()" style="margin-top: 20px;">Voltar</button>
+        </div>
+    </div>
+</div>
+ 
+<div id="cadastro_usuario" class="pagina">
+    <div class="container">
+        <div class="card">
+            <h1>VitaVida🌿</h1>
+            <h2>Cadastro 🌿</h2>
+            <form onsubmit="event.preventDefault(); alert('Cadastro de usuário realizado! ✅'); abrirPagina('login_usuario');">
+                <label>Email</label>
+                <input type="email" required>
+                <label>ID</label>
+                <input type="text" required>
+                <label>CPF</label>
+                <input type="text" required>
+                <label>Telefone</label>
+                <input type="text" required>
+                <button type="submit">Cadastrar</button>
+                <button type="button" class="btn-outline" onclick="voltarPagina()">Voltar</button>
+            </form>
+        </div>
+    </div>
+</div>
+ 
+<div id="login_clinica" class="pagina">
+    <div class="container">
+        <div class="card">
+            <h1>VitaVida🌿</h1>
+            <h2>Entrar 🌿</h2>
+            <form onsubmit="event.preventDefault(); abrirPagina('cadastrar_medico_obrigatorio');">
+                <label>CNPJ</label>
+                <input type="text" required>
+                <label>Senha</label>
+                <input type="password" required>
+                <button type="submit">Entrar</button>
+                <button type="button" class="btn-outline" onclick="voltarPagina()">Voltar</button>
+            </form>
+            <div class="links">
+                <a onclick="abrirPagina('esqueci_senha_passo1')">📋 Esqueci minha senha</a>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+<div id="login_usuario" class="pagina">
+    <div class="container">
+        <div class="card">
+            <h1>VitaVida🌿</h1>
+            <h2>Entrar 🌿</h2>
+            <form onsubmit="event.preventDefault(); alert('Login efetuado! Bem-vindo ao painel do paciente.'); abrirPagina('home');">
+                <label>CPF / ID</label>
+                <input type="text" required>
+                <label>Senha</label>
+                <input type="password" required>
+                <button type="submit">Entrar</button>
+                <button type="button" class="btn-outline" onclick="voltarPagina()">Voltar</button>
+            </form>
+            <div class="links">
+                <a onclick="abrirPagina('esqueci_senha_passo1')">📋 Esqueci minha senha</a>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+<div id="cadastro_clinica" class="pagina">
+    <div class="container">
+        <div class="card">
+            <h1>VitaVida🌿</h1>
+            <h2>Cadastrar 🌿</h2>
+            <form onsubmit="event.preventDefault(); alert('Clínica cadastrada! ✅'); abrirPagina('login_clinica');">
+                <label>CNPJ</label>
+                <input type="text" required>
+                <label>ID</label>
+                <input type="text" required>
+                <label>Telefone</label>
+                <input type="text" required>
+                <label>Endereço</label>
+                <input type="text" required>
+                <label>Senha</label>
+                <input type="password" required>
+                <button type="submit">Cadastrar</button>
+                <button type="button" class="btn-outline" onclick="voltarPagina()">Voltar</button>
+            </form>
+        </div>
+    </div>
+</div>
+ 
+<div id="cadastrar_medico_obrigatorio" class="pagina">
+    <div class="container">
+        <div class="card">
+            <h1>VitaVida🌿</h1>
+            <h2>Cadastrar medico</h2>
+            <p style="color: red; font-weight: bold; font-size: 12px; margin-top: -20px; margin-bottom: 20px;">no mínimo um</p>
+            <form onsubmit="event.preventDefault(); alert('Médico adicionado com sucesso! ✅'); abrirPagina('perfil_clinica');">
+                <label>Nome</label>
+                <input type="text" required>
+                <label>ID</label>
+                <input type="text" required>
+                <label>CRM</label>
+                <input type="text" required>
+                <label>Especialidade</label>
+                <input type="text" required>
+                <button type="submit">Cadastrar</button>
+                <button type="button" class="btn-outline" onclick="voltarPagina()">Voltar</button>
+            </form>
+        </div>
+    </div>
+</div>
+ 
+<div id="esqueci_senha_passo1" class="pagina">
+    <div class="container">
+        <div class="card">
+            <h1>VitaVida🌿</h1>
+            <h2>📋 Esqueci minha senha 🌿</h2>
+            <form onsubmit="event.preventDefault(); abrirPagina('esqueci_senha_passo2');">
+                <label>Email</label>
+                <input type="email">
+                <p style="text-align: center; font-weight: bold; margin: 10px 0;">ou</p>
+                <label>Telefone</label>
+                <input type="text">
+                <button type="submit">Enviar Código</button>
+                <button type="button" class="btn-outline" onclick="voltarPagina()">Voltar</button>
+            </form>
+        </div>
+    </div>
+</div>
+ 
+<div id="esqueci_senha_passo2" class="pagina">
+    <div class="container">
+        <div class="card">
+            <h1>VitaVida🌿</h1>
+            <h2>📋 Esqueci minha senha 🌿</h2>
+            <p>O codigo chegará no seu meio desejado (Email ou SMS).</p>
+            <form onsubmit="event.preventDefault(); abrirPagina('esqueci_senha_passo3');">
+                <input type="text" placeholder="Insira o codigo 00" style="text-align: center;" required>
+                <button type="submit">Validar Código</button>
+                <button type="button" class="btn-outline" onclick="voltarPagina()">Voltar</button>
+            </form>
+            <div class="links" style="justify-content: center;">
+                <a onclick="alert('Código reenviado!')">Reenviar codigo</a>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+<div id="esqueci_senha_passo3" class="pagina">
+    <div class="container">
+        <div class="card">
+            <h1>VitaVida🌿</h1>
+            <h2>Nova senha</h2>
+            <form onsubmit="event.preventDefault(); alert('Senha alterada com sucesso! 🔒'); abrirPagina('escolha_cadastro');">
+                <label>Nova senha</label>
+                <input type="password" required>
+                <label>Confirme a nova senha</label>
+                <input type="password" required>
+                <button type="submit">Enviar</button>
+                <button type="button" class="btn-outline" onclick="voltarPagina()">Voltar</button>
+            </form>
+        </div>
+    </div>
+</div>
+ 
+<div id="perfil_clinica" class="pagina">
+    <div class="container">
+        <div class="card">
+            <div class="header-perfil">
+                <h1>VitaVida🌿</h1>
+                <div class="icones-acoes">
+                    <span onclick="abrirPagina('mais_opcoes')" title="Mais opções" style="cursor: pointer;">💬</span>
+                    <span onclick="abrirPagina('configuracoes')" title="Configurações" style="cursor: pointer;">⚙️</span>
+                </div>
+            </div>
+            <h2>👤 Perfil</h2>
+            <div class="foto" style="background-image: url('https://i.ibb.co/ZxbpYfQ/fox.png');"></div>
+            <p style="text-align: center; font-weight: bold;">CLÍNICA SUSPEITA</p>
+             
+            <div class="agendamentos">
+                <p style="font-weight: bold; text-align: center; margin-bottom: 15px;">AGENDAMENTOS DA SUA CLÍNICA 🌿</p>
+                <div class="item">
+                    <strong>Paciente:</strong> Ev de Monção Bispo da Silva<br>
+                    <strong>Médico:</strong> Eli Bispo<br>
+                    <strong>Especialidade:</strong> Urologia
+                </div>
+                <div class="item">
+                    <strong>Paciente:</strong> Julio Cesar Paulino Freire<br>
+                    <strong>Médico:</strong> Dr. Raimundo Nonato<br>
+                    <strong>Especialidade:</strong> Clinico Geral
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+<div id="mais_opcoes" class="pagina">
+    <div class="container">
+        <div class="card">
+            <h1>VitaVida🌿</h1>
+            <h2>MAIS OPÇÕES</h2>
+            <div class="opcoes-verticais">
+                <button class="btn-outline" onclick="abrirPagina('cancelar_atendendos_tela')">Cancelar atendimentos</button>
+                <button class="btn-outline" onclick="alert('Redirecionando para Modificar Perfil')">Modificar perfil</button>
+                <button class="btn-outline" onclick="abrirPagina('alterar_medicos')">Alterar Médicos</button>
+                <button class="btn-outline" onclick="voltarPagina()" style="margin-top: 20px; background: #eee; color: #333; border: none;">Voltar ao Perfil</button>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+<div id="cancelar_atendendos_tela" class="pagina">
+    <div class="container">
+        <div class="card" style="text-align: center;">
+            <h1>VitaVida🌿</h1>
+            <h2 style="justify-content: center; font-size: 20px; color: red;">CANCELAR ATENDIMENTO</h2>
+             
+            <form onsubmit="event.preventDefault(); alert('Atendimento cancelado com sucesso! ❌'); abrirPagina('mais_opcoes');">
+                <label style="text-align: left;">Selecionar Consulta</label>
+                <select required>
+                    <option value="">Selecione uma consulta...</option>
+                    <option value="1">Ev de Monção - Dr. Eli Bispo (Urologia)</option>
+                    <option value="2">Julio Cesar - Dr. Raimundo Nonato (Clínico Geral)</option>
+                </select>
+                 
+                <button type="submit" style="background-color: #d32f2f;">Cancelar Atendimento</button>
+                <button type="button" class="btn-outline" onclick="voltarPagina()">Voltar</button>
+            </form>
+        </div>
+    </div>
+</div>
+ 
+<div id="alterar_medicos" class="pagina">
+    <div class="container">
+        <div class="card" style="width: 600px;">
+            <h1>VitaVida🌿</h1>
+            <h2>Médicos Cadastrados</h2>
+            <div style="display: flex; gap: 15px; overflow-x: auto; padding-bottom: 15px;">
+                <div class="item" style="min-width: 200px; text-align: center;">
+                    <div class="foto" style="width: 60px; height: 60px; margin: 5px auto; background-image: url('https://i.ibb.co/ZxbpYfQ/fox.png');"></div>
+                    <strong>Nome:</strong> Raposo Dora Nao Pegue<br>
+                    <strong>ID:</strong> 678367<br>
+                    <strong>CRM:</strong> 6767677-0<br>
+                    <strong>Especialidade:</strong> Urologia
+                </div>
+                <div class="item" style="min-width: 200px; text-align: center; opacity: 0.5;">
+                    <div class="foto" style="width: 60px; height: 60px; margin: 5px auto;"></div>
+                    <strong>Nome:</strong> --<br>
+                    <strong>ID:</strong> --<br>
+                    <strong>CRM:</strong> --<br>
+                    <strong>Especialidade:</strong> --
+                </div>
+            </div>
+            <button onclick="abrirPagina('cadastrar_medico_obrigatorio')">Adicionar Novo Médico</button>
+            <button onclick="voltarPagina()" class="btn-outline">Voltar</button>
+        </div>
+    </div>
+</div>
+ 
+<div id="configuracoes" class="pagina">
+    <div class="container">
+        <div class="card">
+            <h1>VitaVida🌿</h1>
+            <h2>CONFIGURAÇÃO</h2>
+            <div class="opcoes-verticais">
+                <button class="btn-outline" onclick="abrirPagina('submenu_conta')">Conta</button>
+                <button class="btn-outline" onclick="abrirPagina('submenu_atividade')">Atividade</button>
+                <button class="btn-outline" onclick="abrirPagina('submenu_acessibilidade')">Acessibilidade</button>
+                <button class="btn-outline" onclick="abrirPagina('submenu_chat')">Chat com atendente</button>
+                <button onclick="abrirPagina('home')" style="background-color: #cc0000; margin-top: 15px;">Sair</button>
+            </div>
+            <button type="button" class="btn-outline" onclick="voltarPagina()" style="margin-top: 10px;">Voltar</button>
+        </div>
+    </div>
+</div>
+ 
+<div id="submenu_conta" class="pagina">
+    <div class="container">
+        <div class="card"><div class="opcoes-verticais"><h2>Conta</h2><button class="btn-outline">Dados Cadastrais</button><button class="btn-outline">Segurança</button><button onclick="voltarPagina()">Voltar</button></div></div>
+    </div>
+</div>
+<div id="submenu_atividade" class="pagina">
+    <div class="container">
+        <div class="card"><div class="opcoes-verticais"><h2>Atividade</h2><button class="btn-outline">Logs de Acesso</button><button class="btn-outline">Histórico de Ações</button><button onclick="voltarPagina()">Voltar</button></div></div>
+    </div>
+</div>
+<div id="submenu_acessibilidade" class="pagina">
+    <div class="container">
+        <div class="card"><div class="opcoes-verticais"><h2>Acessibilidade</h2><button class="btn-outline">Alto Contraste</button><button class="btn-outline">Aumentar Fonte</button><button onclick="voltarPagina()">Voltar</button></div></div>
+    </div>
+</div>
+<div id="submenu_chat" class="pagina">
+    <div class="container">
+        <div class="card"><div class="opcoes-verticais"><h2>Chat com Atendente</h2><p>Conectando a um atendente virtual...</p><button onclick="voltarPagina()">Voltar</button></div></div>
+    </div>
+</div>
+ 
+<script>
+/* LÓGICA DE NAVEGAÇÃO SPA COM HISTÓRICO */
+let historicoPaginas = [];
+ 
+function abrirPagina(id){
+    let paginaAtual = document.querySelector(".pagina.ativa");
+    if(paginaAtual && paginaAtual.id !== id) {
+        historicoPaginas.push(paginaAtual.id);
+    }
+ 
+    let paginas = document.querySelectorAll(".pagina");
+    paginas.forEach(function(pagina){
+        pagina.classList.remove("ativa");
+    });
+   
+    document.getElementById(id).classList.add("ativa");
+    window.scrollTo(0, 0);
+}
+ 
+function voltarPagina() {
+    if(historicoPaginas.length > 0) {
+        let paginaAnterior = historicoPaginas.pop();
+       
+        let paginas = document.querySelectorAll(".pagina");
+        paginas.forEach(function(pagina){
+            pagina.classList.remove("ativa");
+        });
+       
+        document.getElementById(paginaAnterior).classList.add("ativa");
+        window.scrollTo(0, 0);
+    } else {
+        abrirPagina('home');
+    }
+}
+</script>
+ 
+</body>
+</html>
+ 
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VitaVida</title>
+<style>
+
+*{
+
+    margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+
+    font-family:Arial, Helvetica, sans-serif;
+
+}
+
+body{
+
+    background:#efefef;
+
+}
+
+/* TOPO */
+
+header{
+
+    width:100%;
+
+    background:white;
+
+    padding:20px 40px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    border-bottom:5px solid #b7ec58;
+
+    position:sticky;
+
+    top:0;
+
+    z-index: 1000;
+
+}
+
+.logo{
+
+    color:#52a30d;
+
+    font-size:32px;
+
+    font-weight:bold;
+
+}
+
+nav{
+
+    display:flex;
+
+    gap:20px;
+
+}
+
+nav button{
+
+    background:none;
+
+    border:none;
+
+    color:#1f7a1f;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+}
+
+/* PÁGINAS */
+
+.pagina{
+
+    display:none;
+
+}
+
+.ativa{
+
+    display:block;
+
+}
+
+/* CONTAINER */
+
+.container{
+
+    width:100%;
+
+    min-height:calc(100vh - 83px);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:40px;
+
+}
+
+/* CARD */
+
+.card{
+
+    background:white;
+
+    width:420px;
+
+    border-radius:20px;
+
+    padding:35px;
+
+    box-shadow:0 0 20px rgba(0,0,0,0.1);
+
+    border-bottom:15px solid #b7ec58;
+
+    position: relative;
+
+}
+
+.card h1{
+
+    color:#52a30d;
+
+    margin-bottom:5px;
+
+}
+
+.card h2{
+
+    color:#14853f;
+
+    margin-bottom:25px;
+
+    font-size:28px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+}
+
+.card p{
+
+    color:#14853f;
+
+    margin-bottom:10px;
+
+    font-size:14px;
+
+}
+
+label{
+
+    color:#14853f;
+
+    font-weight:bold;
+
+    font-size:14px;
+
+    display: block;
+
+    margin-top: 10px;
+
+}
+
+/* INPUTS */
+
+input, select{
+
+    width:100%;
+
+    padding:12px;
+
+    margin-top:5px;
+
+    margin-bottom:15px;
+
+    border:2px solid #222;
+
+    border-radius:30px;
+
+    outline:none;
+
+    background: white;
+
+}
+
+/* BOTÕES */
+
+button, .btn-link{
+
+    width:100%;
+
+    background:#52a30d;
+
+    color:white;
+
+    border:none;
+
+    padding:14px;
+
+    border-radius:30px;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    transition:0.3s;
+
+    text-align: center;
+
+    display: block;
+
+    text-decoration: none;
+
+    margin-bottom: 10px;
+
+}
+
+button:hover, .btn-link:hover{
+
+    background:#3f8108;
+
+}
+
+.btn-outline {
+
+    background: white;
+
+    color: #14853f;
+
+    border: 2px solid #14853f;
+
+}
+
+.btn-outline:hover {
+
+    background: #14853f;
+
+    color: white;
+
+}
+ 
+.btn-floating {
+
+    background: #52a30d;
+
+    color: white;
+
+    width: 50px;
+
+    height: 50px;
+
+    border-radius: 50%;
+
+    font-size: 24px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin: 20px auto 0 auto;
+
+    cursor: pointer;
+
+    border: none;
+
+}
+
+/* LINKS */
+
+.links{
+
+    margin-top:20px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+}
+
+.links a{
+
+    text-decoration:none;
+
+    color:#14853f;
+
+    font-size:14px;
+
+    cursor:pointer;
+
+}
+
+/* PERFIL E LISTAS */
+
+.perfil{
+
+    text-align:center;
+
+}
+
+.foto{
+
+    width:90px;
+
+    height:90px;
+
+    border-radius:50%;
+
+    background:#ddd;
+
+    margin:20px auto;
+
+    background-size: cover;
+
+    background-position: center;
+
+}
+
+.header-perfil {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    color: #14853f;
+
+}
+
+.icones-acoes {
+
+    display: flex;
+
+    gap: 10px;
+
+    cursor: pointer;
+
+    font-size: 20px;
+
+}
+
+.agendamentos, .medicos-lista{
+
+    margin-top:25px;
+
+    text-align: left;
+
+}
+
+.item{
+
+    border:2px solid #14853f;
+
+    border-radius:20px;
+
+    padding:15px;
+
+    margin-bottom:12px;
+
+    color:#14853f;
+
+    font-size: 13px;
+
+}
+
+/* HOME E SELEÇÃO */
+
+.home{
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+}
+ 
+.home h2 {
+
+    justify-content: center;
+
+}
+
+.opcoes-verticais {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+
+    margin-top: 20px;
+
+    width: 100%;
+
+}
+
+.opcao-selecao {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 5px;
+
+    color: #14853f;
+
+    cursor: pointer;
+
+    padding: 15px;
+
+    border: 2px solid #b7ec58;
+
+    border-radius: 15px;
+
+    transition: 0.2s;
+
+}
+
+.opcao-selecao:hover {
+
+    background: #f0fdf4;
+
+    border-color: #52a30d;
+
+}
+ 
+.opcao-selecao .nome-clinica {
+
+    font-weight: bold;
+
+    font-size: 16px;
+
+}
+ 
+.opcao-selecao .info-clinica {
+
+    font-size: 12px;
+
+    color: #666;
+
+}
+ 
+/* CHAT STYLES */
+
+.chat-container {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    margin-top: 15px;
+
+    margin-bottom: 20px;
+
+}
+
+.balao-chat {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+}
+
+.balao-chat.robo {
+
+    justify-content: flex-start;
+
+}
+
+.balao-chat.usuario {
+
+    justify-content: flex-end;
+
+}
+
+.texto-balao {
+
+    padding: 10px 15px;
+
+    border: 2px solid #14853f;
+
+    border-radius: 20px;
+
+    font-size: 13px;
+
+    color: #14853f;
+
+    max-width: 80%;
+
+}
+
+.balao-chat.usuario .texto-balao {
+
+    background-color: #f0fdf4;
+
+}
+
+/* RESPONSIVO */
+
+@media(max-width:500px){
+
+    .card{
+
+        width:100%;
+
+    }
+
+    header{
+
+        flex-direction:column;
+
+        gap:20px;
+
+    }
+
+}
+</style>
+</head>
+<body>
+<header>
+<div class="logo" onclick="abrirPagina('home')" style="cursor:pointer;">
+
+        VitaVida🌿
+</div>
+<nav>
+<button onclick="abrirPagina('home')">Home</button>
+<button onclick="abrirPagina('escolha_cadastro')">Cadastrar/Entrar</button>
+</nav>
+</header>
+<div id="home" class="pagina ativa">
+<div class="container">
+<div class="card home">
+<h1>VitaVida🌿</h1>
+<h2>Bem-vindo!</h2>
+<p style="margin-bottom: 20px;">Sistema de gerenciamento para clínicas e pacientes.</p>
+<button onclick="abrirPagina('escolha_cadastro')">Entrar Agora</button>
+<div class="links" style="justify-content: center; margin-top: 25px;">
+<a onclick="abrirPagina('sobre_nos')">Sobre nós</a>
+</div>
+</div>
+</div>
+</div>
+ 
+<div id="sobre_nos" class="pagina">
+<div class="container">
+<div class="card" style="text-align: center;">
+<h1>VitaVida🌿</h1>
+<h2>Sobre Nós</h2>
+<p style="margin-bottom: 20px; text-align: left; line-height: 1.5;">O VitaVida é uma plataforma inovadora criada para aproximar clínicas de saúde e seus pacientes, otimizando os processos de agendamento, gestão de corpo médico e controle de atendimentos com simplicidade e acessibilidade.</p>
+<button type="button" class="btn-outline" onclick="voltarPagina()">Voltar</button>
+</div>
+</div>
+</div>
+<div id="escolha_cadastro" class="pagina">
+<div class="container">
+<div class="card">
+<h1>VitaVida🌿</h1>
+<h2>Você quer cadastrar 🌿</h2>
+<div class="opcoes-verticais">
+<div class="opcao-selecao" style="flex-direction: row; align-items: center;" onclick="abrirPagina('escolha_clinica')">
+
+                    🏥 Clínica
+</div>
+<div class="opcao-selecao" style="flex-direction: row; align-items: center;" onclick="abrirPagina('fluxo_usuario')">
+
+                    👤 Usuário
+</div>
+</div>
+<button type="button" class="btn-outline" onclick="voltarPagina()" style="margin-top: 20px;">Voltar</button>
+</div>
+</div>
+</div>
+ 
+<div id="escolha_clinica" class="pagina">
+<div class="container">
+<div class="card" style="width: 460px;">
+<h1>VitaVida🌿</h1>
+<h2>Selecione a Clínica</h2>
+<p style="margin-bottom: 15px;">Escolha uma unidade existente ou registre uma nova:</p>
+<button onclick="abrirPagina('cadastro_clinica')" style="background-color: #14853f; margin-bottom: 20px;">
+
+                ➕ Cadastrar Nova Clínica
+</button>
+<div class="opcoes-verticais" style="max-height: 280px; overflow-y: auto; padding-right: 5px; border-top: 1px solid #ddd; padding-top: 15px;">
+<div class="opcao-selecao" onclick="abrirPagina('fluxo_clinica')">
+<span class="nome-clinica">🏥 Clínica Suspeita (Matriz)</span>
+<span class="info-clinica">CNPJ: 12.345.678/0001-99 | Teresina - PI</span>
+</div>
+<div class="opcao-selecao" onclick="abrirPagina('fluxo_clinica')">
+<span class="nome-clinica">🌿 Centro Médico Bem-Estar</span>
+<span class="info-clinica">CNPJ: 98.765.432/0001-10 | São Paulo - SP</span>
+</div>
+<div class="opcao-selecao" onclick="abrirPagina('fluxo_clinica')">
+<span class="nome-clinica">🩺 Policlinica Vida & Saúde</span>
+<span class="info-clinica">CNPJ: 45.112.334/0002-44 | Rio de Janeiro - RJ</span>
+</div>
+</div>
+<button type="button" class="btn-outline" onclick="voltarPagina()" style="margin-top: 20px;">Voltar</button>
+</div>
+</div>
+</div>
+<div id="fluxo_clinica" class="pagina">
+<div class="container">
+<div class="card">
+<h1>VitaVida🌿</h1>
+<h2>🏥 Clinica 🌿</h2>
+<div class="opcoes-verticais">
+<a class="btn-link" onclick="abrirPagina('login_clinica')">📝 Entrar</a>
+<a class="btn-link" onclick="abrirPagina('cadastro_clinica')">📝 Cadastro</a>
+</div>
+<button type="button" class="btn-outline" onclick="voltarPagina()" style="margin-top: 20px;">Voltar</button>
+</div>
+</div>
+</div>
+<div id="fluxo_usuario" class="pagina">
+<div class="container">
+<div class="card">
+<h1>VitaVida🌿</h1>
+<h2>👤 Usuario 🌿</h2>
+<div class="opcoes-verticais">
+<a class="btn-link" onclick="abrirPagina('login_usuario')">📝 Entrar</a>
+<a class="btn-link" onclick="abrirPagina('cadastro_usuario')">📝 Cadastro</a>
+</div>
+<button type="button" class="btn-outline" onclick="voltarPagina()" style="margin-top: 20px;">Voltar</button>
+</div>
+</div>
+</div>
+<div id="cadastro_usuario" class="pagina">
+<div class="container">
+<div class="card">
+<h1>VitaVida🌿</h1>
+<h2>Cadastro 🌿</h2>
+<form onsubmit="event.preventDefault(); alert('Cadastro de usuário realizado! ✅'); abrirPagina('login_usuario');">
+<label>Email</label>
+<input type="email" required>
+<label>ID</label>
+<input type="text" required>
+<label>CPF</label>
+<input type="text" required>
+<label>Telefone</label>
+<input type="text" required>
+<button type="submit">Cadastrar</button>
+<button type="button" class="btn-outline" onclick="voltarPagina()">Voltar</button>
+</form>
+</div>
+</div>
+</div>
+<div id="login_clinica" class="pagina">
+<div class="container">
+<div class="card">
+<h1>VitaVida🌿</h1>
+<h2>Entrar 🌿</h2>
+<form onsubmit="event.preventDefault(); abrirPagina('perfil_clinica');">
+<label>CNPJ</label>
+<input type="text" required value="12.345.678/0001-99">
+<label>Senha</label>
+<input type="password" required value="******">
+<button type="submit">Entrar</button>
+<button type="button" class="btn-outline" onclick="voltarPagina()">Voltar</button>
+</form>
+<div class="links">
+<a onclick="abrirPagina('esqueci_senha_passo1')">📋 Esqueci minha senha</a>
+</div>
+</div>
+</div>
+</div>
+<div id="login_usuario" class="pagina">
+<div class="container">
+<div class="card">
+<h1>VitaVida🌿</h1>
+<h2 style="font-size: 24px;">Entrar🌿</h2>
+<form onsubmit="event.preventDefault(); abrirPagina('perfil_paciente');">
+<label>Email</label>
+<input type="email" required placeholder="Digite seu email">
+<label>Senha</label>
+<input type="password" required placeholder="Digite sua senha">
+<button type="submit">Entrar</button>
+<button type="button" class="btn-outline" onclick="voltarPagina()">Voltar</button>
+</form>
+<div class="links">
+<a onclick="abrirPagina('esqueci_senha_passo1')">😢 Esqueci minha senha</a>
+</div>
+</div>
+</div>
+</div>
+<div id="cadastro_clinica" class="pagina">
+<div class="container">
+<div class="card">
+<h1>VitaVida🌿</h1>
+<h2>Cadastrar 🌿</h2>
+<form onsubmit="event.preventDefault(); alert('Clínica cadastrada! ✅'); abrirPagina('login_clinica');">
+<label>CNPJ</label>
+<input type="text" required>
+<label>ID</label>
+<input type="text" required>
+<label>Telefone</label>
+<input type="text" required>
+<label>Endereço</label>
+<input type="text" required>
+<label>Senha</label>
+<input type="password" required>
+<button type="submit">Cadastrar</button>
+<button type="button" class="btn-outline" onclick="voltarPagina()">Voltar</button>
+</form>
+</div>
+</div>
+</div>
+<div id="cadastrar_medico_obrigatorio" class="pagina">
+<div class="container">
+<div class="card">
+<h1>VitaVida🌿</h1>
+<h2>Cadastrar medico</h2>
+<p style="color: red; font-weight: bold; font-size: 12px; margin-top: -20px; margin-bottom: 20px;">no mínimo um</p>
+<form onsubmit="event.preventDefault(); alert('Médico adicionado com sucesso! ✅'); abrirPagina('perfil_clinica');">
+<label>Nome</label>
+<input type="text" required>
+<label>ID</label>
+<input type="text" required>
+<label>CRM</label>
+<input type="text" required>
+<label>Especialidade</label>
+<input type="text" required>
+<button type="submit">Cadastrar</button>
+<button type="button" class="btn-outline" onclick="voltarPagina()">Voltar</button>
+</form>
+</div>
+</div>
+</div>
+<div id="esqueci_senha_passo1" class="pagina">
+<div class="container">
+<div class="card">
+<h1>VitaVida🌿</h1>
+<h2>📋 Esqueci minha senha 🌿</h2>
+<form onsubmit="event.preventDefault(); abrirPagina('esqueci_senha_passo2');">
+<label>Email</label>
+<input type="email">
+<p style="text-align: center; font-weight: bold; margin: 10px 0;">ou</p>
+<label>Telefone</label>
+<input type="text">
+<button type="submit">Enviar Código</button>
+<button type="button" class="btn-outline" onclick="voltarPagina()">Voltar</button>
+</form>
+</div>
+</div>
+</div>
+<div id="esqueci_senha_passo2" class="pagina">
+<div class="container">
+<div class="card">
+<h1>VitaVida🌿</h1>
+<h2>📋 Esqueci minha senha 🌿</h2>
+<p>O codigo chegará no seu meio desejado (Email ou SMS).</p>
+<form onsubmit="event.preventDefault(); abrirPagina('esqueci_senha_passo3');">
+<input type="text" placeholder="Insira o codigo 00" style="text-align: center;" required>
+<button type="submit">Validar Código</button>
+<button type="button" class="btn-outline" onclick="voltarPagina()">Voltar</button>
+</form>
+<div class="links" style="justify-content: center;">
+<a onclick="alert('Código reenviado!')">Reenviar codigo</a>
+</div>
+</div>
+</div>
+</div>
+<div id="esqueci_senha_passo3" class="pagina">
+<div class="container">
+<div class="card">
+<h1>VitaVida🌿</h1>
+<h2>Nova senha</h2>
+<form onsubmit="event.preventDefault(); alert('Senha alterada com sucesso! 🔒'); abrirPagina('escolha_cadastro');">
+<label>Nova senha</label>
+<input type="password" required>
+<label>Confirme a nova senha</label>
+<input type="password" required>
+<button type="submit">Enviar</button>
+<button type="button" class="btn-outline" onclick="voltarPagina()">Voltar</button>
+</form>
+</div>
+</div>
+</div>
+<div id="perfil_clinica" class="pagina">
+<div class="container">
+<div class="card">
+<div class="header-perfil">
+<h1>VitaVida🌿</h1>
+<div class="icones-acoes">
+<span onclick="abrirPagina('mais_opcoes')" title="Mais opções" style="cursor: pointer;">💬</span>
+<span onclick="abrirPagina('configuracoes')" title="Configurações" style="cursor: pointer;">⚙️</span>
+</div>
+</div>
+<h2>👤 Perfil</h2>
+<div class="foto" style="background-image: url('https://i.ibb.co/ZxbpYfQ/fox.png');"></div>
+<p style="text-align: center; font-weight: bold;">CLÍNICA SUSPEITA</p>
+<div class="agendamentos">
+<p style="font-weight: bold; text-align: center; margin-bottom: 15px;">AGENDAMENTOS DA SUA CLÍNICA 🌿</p>
+<div class="item">
+<strong>Paciente:</strong> Ze da manga<br>
+<strong>Médico:</strong> DR RAPOSO<br>
+<strong>Especialidade:</strong> Urologista
+</div>
+</div>
+</div>
+</div>
+</div>
+ 
+<div id="perfil_paciente" class="pagina">
+<div class="container">
+<div class="card">
+<div class="header-perfil">
+<h1>VitaVida🌿</h1>
+<div class="icones-acoes">
+<span onclick="abrirPagina('configuracoes')" title="Configurações" style="cursor: pointer;">⚙️</span>
+</div>
+</div>
+<h2>👤 Perfil</h2>
+<div class="foto" style="background-image: url('https://api.dicebear.com/7.x/bottts/svg?seed=Ze'); background-color: #b7ec58;"></div>
+<p style="text-align: center; font-weight: bold; color: #14853f;">Ze da manga</p>
+<div class="agendamentos">
+<p style="font-weight: bold; text-align: center; margin-bottom: 15px; color: #14853f;">AGENDAMENTOS 🌿</p>
+<div class="item" style="border-radius: 10px; padding: 10px;">
+
+                    🟢 <strong>CLINICA SUSPEITA</strong><br>
+<strong>ÁREA:</strong> <span style="border: 1px solid #14853f; padding: 2px 8px; border-radius: 10px; font-size: 11px;">UROLOGISTA</span><br>
+<span style="display:block; margin-top:5px;"><strong>MÉDICO:</strong> <span style="border: 1px solid #14853f; padding: 2px 8px; border-radius: 10px; font-size: 11px;">DR RAPOSO</span></span>
+</div>
+</div>
+<button class="btn-floating" onclick="abrirPagina('marca_consulta')">+</button>
+</div>
+</div>
+</div>
+ 
+<div id="marca_consulta" class="pagina">
+<div class="container">
+<div class="card" style="text-align: center;">
+<h1>VitaVida🌿</h1>
+<h2 style="justify-content: center; font-size: 24px; margin-bottom: 30px;">Marca Consulta</h2>
+<form onsubmit="event.preventDefault(); alert('Consulta agendada com sucesso! 🎉'); abrirPagina('perfil_paciente');">
+<label style="text-align: left;">Especialidade</label>
+<select required style="border-radius: 15px; border: 2px solid #000; font-weight: bold; text-align: center;">
+<option value="">Especialidade</option>
+<option value="urologia">Urologista</option>
+<option value="clinico">Clínico Geral</option>
+</select>
+<label style="text-align: left;">Escolher Clínica</label>
+<select required style="border-radius: 15px; border: 2px solid #000; font-weight: bold; text-align: center;">
+<option value="">Escolher Clínica</option>
+<option value="suspeita">Clínica Suspeita</option>
+<option value="bem_estar">Centro Médico Bem-Estar</option>
+</select>
+<button type="submit" style="margin-top: 30px;">Confirmar Agendamento</button>
+<button type="button" class="btn-outline" onclick="voltarPagina()">Voltar</button>
+</form>
+</div>
+</div>
+</div>
+<div id="mais_opcoes" class="pagina">
+<div class="container">
+<div class="card">
+<h1>VitaVida🌿</h1>
+<h2>MAIS OPÇÕES</h2>
+<div class="opcoes-verticais">
+<button class="btn-outline" onclick="abrirPagina('cancelar_atendendos_tela')">Cancelar atendimentos</button>
+<button class="btn-outline" onclick="alert('Redirecionando para Modificar Perfil')">Modificar perfil</button>
+<button class="btn-outline" onclick="abrirPagina('alterar_medicos')">Alterar Médicos</button>
+<button class="btn-outline" onclick="voltarPagina()" style="margin-top: 20px; background: #eee; color: #333; border: none;">Voltar ao Perfil</button>
+</div>
+</div>
+</div>
+</div>
+ 
+<div id="cancelar_atendendos_tela" class="pagina">
+<div class="container">
+<div class="card" style="text-align: center;">
+<h1>VitaVida🌿</h1>
+<h2 style="justify-content: center; font-size: 20px; color: red;">CANCELAR ATENDIMENTO</h2>
+<form onsubmit="event.preventDefault(); alert('Atendimento cancelado com sucesso! ❌'); abrirPagina('mais_opcoes');">
+<label style="text-align: left;">Selecionar Consulta</label>
+<select required>
+<option value="">Selecione uma consulta...</option>
+<option value="1">Ze da manga - Dr. Raposo (Urologia)</option>
+</select>
+<button type="submit" style="background-color: #d32f2f;">Cancelar Atendimento</button>
+<button type="button" class="btn-outline" onclick="voltarPagina()">Voltar</button>
+</form>
+</div>
+</div>
+</div>
+<div id="alterar_medicos" class="pagina">
+<div class="container">
+<div class="card" style="width: 600px;"> 
+<h1>VitaVida🌿</h1>
+<h2>Médicos Cadastrados</h2>
+<div style="display: flex; gap: 15px; overflow-x: auto; padding-bottom: 15px;">
+<div class="item" style="min-width: 200px; text-align: center;">
+<div class="foto" style="width: 60px; height: 60px; margin: 5px auto; background-image: url('https://i.ibb.co/ZxbpYfQ/fox.png');"></div>
+<strong>Nome:</strong> Raposo Dora Nao Pegue<br>
+<strong>ID:</strong> 678367<br>
+<strong>CRM:</strong> 6767677-0<br>
+<strong>Especialidade:</strong> Urologia
+</div>
+</div>
+<button onclick="abrirPagina('cadastrar_medico_obrigatorio')">Adicionar Novo Médico</button>
+<button onclick="voltarPagina()" class="btn-outline">Voltar</button>
+</div>
+</div>
+</div>
+<div id="configuracoes" class="pagina">
+<div class="container">
+<div class="card">
+<h1>VitaVida🌿</h1>
+<h2>CONFIGURAÇÃO</h2>
+<div class="opcoes-verticais">
+<button class="btn-outline" onclick="abrirPagina('submenu_conta')">Conta</button>
+<button class="btn-outline" onclick="abrirPagina('submenu_atividade')">Atividade</button>
+<button class="btn-outline" onclick="abrirPagina('submenu_acessibilidade')">Acessibilidade</button>
+<button class="btn-outline" onclick="abrirPagina('submenu_chat')">Chat com atendente</button>
+</div>
+<div class="links" style="justify-content: flex-end; margin-top: 20px;">
+<a onclick="abrirPagina('home')" style="color: #cc0000; font-weight: bold;">Sair</a>
+</div>
+</div>
+</div>
+</div>
+<div id="submenu_conta" class="pagina">
+<div class="container">
+<div class="card">
+<h1>VitaVida🌿</h1>
+<form onsubmit="event.preventDefault(); alert('Dados alterados!'); voltarPagina();">
+<label>Nome:</label>
+<input type="text" placeholder="Nome completo">
+<label>Email:</label>
+<input type="email" placeholder="exemplo@email.com">
+<label>Senha:</label>
+<input type="password" placeholder="******">
+<button type="submit" style="background-color: #14853f;">Alterar</button>
+</form>
+<div class="links" style="justify-content: flex-end;">
+<a onclick="voltarPagina()" style="font-weight: bold;">Sair</a>
+</div>
+</div>
+</div>
+</div>
+ 
+<div id="submenu_atividade" class="pagina">
+<div class="container">
+<div class="card">
+<h1>VitaVida🌿</h1>
+<h2 style="font-size: 22px; justify-content: center; margin-bottom: 10px;">ATIVIDADE</h2>
+<div style="width: 160px; height: 160px; border-radius: 50%; background: conic-gradient(#52a30d 0% 45%, #b7ec58 45% 70%, #14853f 70% 85%, #3f8108 85% 100%); margin: 0 auto 20px auto;"></div>
+<div class="links" style="justify-content: flex-end;">
+<a onclick="voltarPagina()" style="font-weight: bold;">Sair</a>
+</div>
+</div>
+</div>
+</div>
+ 
+<div id="submenu_acessibilidade" class="pagina">
+<div class="container">
+<div class="card">
+<h1>VitaVida🌿</h1>
+<h2>ACESSIBILIDADE</h2>
+<div class="opcoes-verticais">
+<button class="btn-outline">Libra ⏻</button>
+<button class="btn-outline">Assistente de voz ⏻</button>
+<button class="btn-outline">lupa + -</button>
+</div>
+<div class="links" style="justify-content: flex-end; margin-top: 25px;">
+<a onclick="voltarPagina()" style="font-weight: bold;">Sair</a>
+</div>
+</div>
+</div>
+</div>
+ 
+<div id="submenu_chat" class="pagina">
+<div class="container">
+<div class="card">
+<h1>VitaVida🌿</h1>
+<h2>🎧 Chat com atendente</h2>
+<div class="chat-container">
+<div class="balao-chat robo"><span>🤖</span><div class="texto-balao">Olá! Como posso ajudar você hoje?</div></div>
+</div>
+<div class="links" style="justify-content: flex-end;">
+<a onclick="voltarPagina()" style="font-weight: bold;">Sair</a>
+</div>
+</div>
+</div>
+</div>
+<script>
+
+let historicoPaginas = [];
+ 
+function abrirPagina(id){
+
+    let paginaAtual = document.querySelector(".pagina.ativa");
+
+    if(paginaAtual && paginaAtual.id !== id) {
+
+        historicoPaginas.push(paginaAtual.id); 
+
+    }
+
+    let paginas = document.querySelectorAll(".pagina");
+
+    paginas.forEach(function(pagina){
+
+        pagina.classList.remove("ativa");
+
+    });
+
+    document.getElementById(id).classList.add("ativa");
+
+    window.scrollTo(0, 0);
+
+}
+ 
+function voltarPagina() {
+
+    if(historicoPaginas.length > 0) {
+
+        let paginaAnterior = historicoPaginas.pop(); 
+
+        let paginas = document.querySelectorAll(".pagina");
+
+        paginas.forEach(function(pagina){
+
+            pagina.classList.remove("ativa");
+
+        });
+
+        document.getElementById(paginaAnterior).classList.add("ativa");
+
+        window.scrollTo(0, 0);
+
+    } else {
+
+        abrirPagina('home');
+
+    }
+
+}
+</script>
+</body>
+</html>
+ 
