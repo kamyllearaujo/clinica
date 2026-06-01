@@ -1,13 +1,4 @@
-Para manter o fluxo funcionando direitinho (escondendo as páginas e mostrando apenas a tela atual quando você clica nos botões) **sem usar nenhuma linha de JavaScript**, nós precisamos usar um truque puramente em **HTML e CSS** chamado **âncoras com o seletor `:target**`.
 
-O funcionamento é bem simples:
-
-1. No HTML, usamos links comuns (`<a href="#id_da_pagina">`) ou botões estilizados para mudar a URL da barra de endereço.
-2. No CSS, todas as páginas começam escondidas (`display: none`), e a regra `#id_da_pagina:target { display: block; }` faz com que apenas a página ativa na URL apareça na tela.
-
-Aqui está o seu código completo atualizado com essa lógica. Ele vai abrir direto na **Home** e os botões já vão te guiar pelos fluxos perfeitamente:
-
-```html
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -860,4 +851,4 @@ input, select{
 </body>
 </html>
 
-```
+
